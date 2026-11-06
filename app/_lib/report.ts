@@ -13,11 +13,21 @@ import type { AnswerRecord } from "../../src/schema.js";
 
 export const GOLD_FILE = "eval/gold-set-v0.6.csv";
 
+/**
+ * Every graded version. `shown` picks the ones the demo Report Card displays (baseline and final, matching
+ * the one-pager); hidden versions keep their runs and grades on disk but have no page.
+ */
 export const VERSIONS = [
-  { id: "v1", run: "v1-gold-2026-11-03", change: "General baseline: answer only from passages, cite them, abstain rather than guess." },
-  { id: "v2", run: "v2-gold-2026-11-03", change: "Prefer current, authoritative sources. Related context isn't a partial answer." },
-  { id: "v3", run: "v3-gold-2026-11-03", change: "Every specific detail needs a quote." },
-  { id: "v4", run: "v4-gold-2026-11-05", change: "Sharper abstain test. Report the whole relevant set." },
+  { id: "v1", label: "Baseline", shown: true, run: "v1-gold-2026-11-03", change: "General baseline: answer only from passages, cite them, abstain rather than guess." },
+  { id: "v2", label: "v2", shown: false, run: "v2-gold-2026-11-03", change: "Prefer current, authoritative sources. Related context isn't a partial answer." },
+  { id: "v3", label: "v3", shown: false, run: "v3-gold-2026-11-03", change: "Every specific detail needs a quote." },
+  {
+    id: "v4",
+    label: "Final",
+    shown: true,
+    run: "v4-gold-2026-11-05",
+    change: "After four prompt versions: current sources over outdated ones, a quote for every detail, a sharper abstain test, complete answers.",
+  },
 ] as const;
 export type VersionId = (typeof VERSIONS)[number]["id"];
 
@@ -27,6 +37,7 @@ export interface Agreement {
 
 export interface VersionData {
   id: VersionId;
+  label: string;
   change: string;
   runId: string;
   card: ReportCard & { grader_human_agreement?: Agreement };
@@ -45,7 +56,7 @@ export function currentGold(): { items: Map<string, GoldItem>; sha256: string } 
 
 export function loadVersion(id: string): VersionData | null {
   const v = VERSIONS.find((x) => x.id === id);
-  if (!v) return null;
+  if (!v || !v.shown) return null;
   const gradesFile = `grades/${v.run}.json`;
   const runFile = `runs/${v.run}.json`;
   if (!existsSync(gradesFile) || !existsSync(runFile)) return null;
@@ -53,6 +64,7 @@ export function loadVersion(id: string): VersionData | null {
   const r = JSON.parse(readFileSync(runFile, "utf8"));
   return {
     id: v.id,
+    label: v.label,
     change: v.change,
     runId: v.run,
     card: g.report_card,

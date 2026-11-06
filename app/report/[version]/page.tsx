@@ -31,7 +31,7 @@ export default async function VersionPage({ params }: { params: Promise<{ versio
         </ol>
       </nav>
       <h1>
-        {v.id}: {v.card.answer_correctness.numerator} of {v.card.answer_correctness.denominator} answers passed
+        {v.label} ({v.id}): {v.card.answer_correctness.numerator} of {v.card.answer_correctness.denominator} answers passed
       </h1>
       <p className="lede">
         {v.change} Graded by {v.graderModel}

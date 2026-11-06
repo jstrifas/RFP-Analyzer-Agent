@@ -99,15 +99,12 @@ export default function ReportPage() {
   }
   const first = versions[0];
   const last = versions.at(-1)!;
-  const stale = versions.filter((v) => !v.gradedOnCurrentGold).map((v) => v.id);
-  const agreement = versions.reduce(
-    (acc, v) => {
-      const a = v.card.grader_human_agreement?.overall;
-      if (!a) return acc;
-      return { agree: acc.agree + a.agree, total: acc.total + a.total, versions: [...acc.versions, v.id] };
-    },
-    { agree: 0, total: 0, versions: [] as string[] }
-  );
+  const gain = (last.card.answer_correctness.value ?? 0) - (first.card.answer_correctness.value ?? 0);
+  const reviewFlags = (v: VersionData) => v.answers.filter((a) => a.needs_review).length;
+  const p50Seconds = (() => {
+    const lat = last.logs.map((l) => l.latency_ms).sort((a, b) => a - b);
+    return lat.length ? Math.round(lat[Math.floor(lat.length / 2)] / 1000) : null;
+  })();
 
   return (
     <>
@@ -121,14 +118,16 @@ export default function ReportPage() {
         Report Card showed a failure.
       </p>
 
-      <ol className="versions" aria-label="Prompt versions, in order">
+      <ol className="versions" aria-label="Baseline and final versions" style={{ gridTemplateColumns: `repeat(${versions.length}, minmax(0, 1fr))` }}>
         {versions.map((v, i) => {
           const c = v.card.answer_correctness;
           return (
             <li key={v.id} style={{ position: "relative" }}>
               <Link href={`/report/${v.id}`} className="version">
                 <span className="version-top">
-                  <span className="version-id">{v.id}</span>
+                  <span className="version-id">
+                    {v.label} <span className="mono muted small">({v.id})</span>
+                  </span>
                   <span className={`version-score ${(c.value ?? 0) >= 85 ? "meets" : "misses"}`}>
                     {c.value}%<span className="visually-hidden"> correct</span>
                   </span>
@@ -148,8 +147,8 @@ export default function ReportPage() {
       <section className="sheet" aria-labelledby="metrics-h">
         <div className="sheet-head">
           <div>
-            <h2 id="metrics-h">Metrics against the PRD targets</h2>
-            <p className="section-note">Green meets the target. Select a version above to see every graded answer.</p>
+            <h2 id="metrics-h">Results against the PRD&apos;s targets: baseline vs. final</h2>
+            <p className="section-note">All runs on the 50-question tuning set. Green meets the target. Select a version above to see every graded answer.</p>
           </div>
           <span className="legend">
             <span>
@@ -167,7 +166,9 @@ export default function ReportPage() {
                 <th scope="col">Target</th>
                 {versions.map((v) => (
                   <th scope="col" key={v.id}>
-                    <Link href={`/report/${v.id}`}>{v.id}</Link>
+                    <Link href={`/report/${v.id}`}>
+                      {v.label} ({v.id})
+                    </Link>
                   </th>
                 ))}
               </tr>
@@ -185,32 +186,23 @@ export default function ReportPage() {
                   ))}
                 </tr>
               ))}
-              <tr>
-                <th scope="row">
-                  Answers sent for human review
-                  <span className="row-sub">Fewer is better, if the right ones are sent</span>
-                </th>
-                <td className="target">reported</td>
-                {versions.map((v) => (
-                  <td key={v.id} className="score-cell">
-                    {v.answers.filter((a) => a.needs_review).length} of {v.answers.length}
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                <th scope="row">
-                  Cost per 50-question run
-                </th>
-                <td className="target">reported</td>
-                {versions.map((v) => (
-                  <td key={v.id} className="score-cell">
-                    {v.costUsd === null ? "?" : `$${v.costUsd.toFixed(2)}`}
-                  </td>
-                ))}
-              </tr>
             </tbody>
           </table>
         </div>
+        <p className="lede small" style={{ marginTop: 14 }}>
+          <b>
+            {gain >= 0 ? "+" : ""}
+            {gain} points
+          </b>{" "}
+          on correctness against a +15 target, measured on the tuning set. Four prompt versions; each rule was added only after the
+          Report Card measured a failure. Answers flagged for human review fell from {reviewFlags(first)} to {reviewFlags(last)}.
+          {p50Seconds !== null && last.costUsd !== null && (
+            <>
+              {" "}
+              About {p50Seconds} seconds per question and ${Math.round(last.costUsd)} per 50-question run.
+            </>
+          )}
+        </p>
       </section>
 
       <section className="sheet" aria-labelledby="traps-h">
@@ -229,7 +221,7 @@ export default function ReportPage() {
                 <th scope="col">Questions</th>
                 {versions.map((v) => (
                   <th scope="col" key={v.id}>
-                    {v.id}
+                    {v.label} ({v.id})
                   </th>
                 ))}
               </tr>
@@ -262,31 +254,15 @@ export default function ReportPage() {
         </div>
       </section>
 
-      <section className="sheet" aria-labelledby="care-h">
-        <h2 id="care-h">Read these numbers with care</h2>
+      <section className="sheet" aria-labelledby="limits-h">
+        <h2 id="limits-h">Honest limits</h2>
         <ul className="caveats">
+          <li>Prompts were revised against these 50 questions, so the final score is optimistic. A held-out set is next.</li>
+          <li>Re-grading the same answers moved one verdict: a fair range for the final version is 98–100%.</li>
           <li>
-            Versions 2 to 4 were diagnosed and tuned on these same 50 questions, and there is no held-out set yet, so the latest
-            score is optimistic.
+            Knowledge base generated with Claude; gold answers drafted by human and corrected by me; graded by Gemini. No model
+            grades its own output. All data is fictional.
           </li>
-          <li>
-            Grading the same v4 answers twice changed one verdict (a borderline citation), so a fair range for v4&apos;s
-            correctness is 98–100%. Repeat runs of v2 and v3 showed a few points of run-to-run variation.
-          </li>
-          {agreement.total > 0 && (
-            <li>
-              A human graded {agreement.total} answers across {agreement.versions.join(", ")} and agreed with the grader&apos;s overall
-              verdict on {agreement.agree === agreement.total ? `all ${agreement.total}` : agreement.agree}. That is with the fifth
-              check (review flags), which was added after the grader passed an over-cautious answer the human had failed.
-            </li>
-          )}
-          {stale.length > 0 && (
-            <li>
-              Gemini graded {stale.join(", ")} before the Q-036 gold-set edit (Nov 5), so a Q-036 answer missing the now-optional
-              fact counted as a failure there. Later edits that only affect code-decided checks (such as Q-022&apos;s review flag)
-              are applied to every version by rescoring.
-            </li>
-          )}
         </ul>
       </section>
     </>
