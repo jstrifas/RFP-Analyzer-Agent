@@ -1,0 +1,41 @@
+{
+  "name": "cited",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "tsx scripts/check-schema.ts",
+    "typecheck": "tsc",
+    "ingest": "tsx scripts/ingest-kb.ts --kb ./kb",
+    "search": "tsx scripts/search-kb.ts",
+    "agent": "tsx scripts/run-agent.ts",
+    "check:agent": "tsx scripts/check-agent.ts",
+    "check:grader": "tsx scripts/check-grader.ts",
+    "grade": "tsx scripts/grade-run.ts",
+    "agreement": "tsx scripts/human-agreement.ts",
+    "rescore": "tsx scripts/rescore.ts",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.137.0",
+    "@google/genai": "^2.32.0",
+    "@supabase/supabase-js": "^2.118.0",
+    "next": "^16.4.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "type": "module"
+}

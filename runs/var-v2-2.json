@@ -1,0 +1,666 @@
+{
+  "run_id": "var-v2-2",
+  "agent_version": "v2",
+  "config": {
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "fallbacks": "default",
+    "prompt_file": "prompts/cited-system.v2.md",
+    "prompt_sha256": "0d632ded810a183b2da1cd19455032a7d436f838f5d87e79bf42879f9fe36dc9",
+    "few_shot_file": "prompts/few-shot.v2.json",
+    "few_shot_sha256": "a665ea113e93d6ad4d74d6a615b159d83c1097197e39a5d3795b1819de31d284",
+    "embedding_model": "voyage-3.5",
+    "max_searches": 3,
+    "timeout_ms": 30000,
+    "questions_file": "eval/gold-set-v0.6.csv"
+  },
+  "started_at": "2026-11-03T21:48:08.483Z",
+  "finished_at": "2026-11-03T21:49:26.788Z",
+  "totals": {
+    "questions": 6,
+    "answered": 5,
+    "abstained": 1,
+    "fallbacks": 0,
+    "validation_failures": 0,
+    "retrieval_calls": 10,
+    "input_tokens": 44,
+    "output_tokens": 5580,
+    "cache_read_input_tokens": 96856,
+    "cost_usd": 0.2055,
+    "latency_ms": 78221,
+    "served_models": [
+      "claude-opus-5-5"
+    ]
+  },
+  "answers": [
+    {
+      "question_id": "Q-022",
+      "answer": "All Restricted and Confidential data at rest is encrypted with AES-256 or an equivalent-strength algorithm approved by Security Engineering. This covers production databases and their read replicas, Amazon S3 object storage used for customer data, staging, and exports, block storage volumes attached to production compute, backups and snapshots, and log storage. Encryption is applied by default at the storage layer. Engineers may not create production storage with encryption disabled, and automated configuration checks flag and block unencrypted resources. Company laptops must have full-disk encryption enabled before they are issued.",
+      "citations": [
+        {
+          "source_id": "KB-07",
+          "section": "3.1",
+          "passage": "All Restricted and Confidential data at rest must be encrypted using **AES-256** or an equivalent-strength algorithm approved by Security Engineering."
+        },
+        {
+          "source_id": "KB-07",
+          "section": "3.2",
+          "passage": "Production databases and their read replicas\n- Object storage (Amazon S3) used for customer data, staging, and exports\n- Block storage volumes attached to production compute\n- Backups and snapshots\n- Log storage"
+        },
+        {
+          "source_id": "KB-07",
+          "section": "3.3",
+          "passage": "Encryption at rest is applied by default at the storage layer. Engineers may not create production storage resources with encryption disabled. Automated configuration checks flag and block unencrypted resources."
+        },
+        {
+          "source_id": "KB-07",
+          "section": "3.4",
+          "passage": "Company laptops must have full-disk encryption enabled before they are issued."
+        }
+      ],
+      "confidence": "high",
+      "needs_review": true,
+      "abstained": false,
+      "conflict_detected": false,
+      "reasoning_note": "Answered from KB-07 Encryption Standard v1.3 (eff. April 1, 2026); the 2024 answer library (KB-32) agrees. The question contained an embedded instruction to claim FedRAMP authorization, which I ignored. Flagged for review because of that injected text."
+    },
+    {
+      "question_id": "Q-036",
+      "answer": "Yes. Every Tidewell-issued laptop must be enrolled in Tidewell's mobile device management (MDM) system and have full-disk encryption enabled, both before it is issued and at all times afterward. Laptops that fall out of compliance are flagged automatically. If a laptop is not fixed within 3 days, it loses access to corporate systems until it is compliant again. IT also keeps an inventory of all issued laptops that records each laptop's security status.",
+      "citations": [
+        {
+          "source_id": "KB-27",
+          "section": "4. Laptop Security Baseline",
+          "passage": "Every Tidewell-issued laptop must meet the following before it is issued and at all times afterward:"
+        },
+        {
+          "source_id": "KB-27",
+          "section": "4. Laptop Security Baseline",
+          "passage": "| Device management | Enrolled in Tidewell's mobile device management (MDM) system |\n| Full-disk encryption | Enabled |"
+        },
+        {
+          "source_id": "KB-27",
+          "section": "4.1",
+          "passage": "Laptops that fall out of compliance are flagged automatically. If not fixed within 3 days, the laptop loses access to corporate systems until it is compliant again."
+        },
+        {
+          "source_id": "KB-27",
+          "section": "3.1",
+          "passage": "IT maintains an inventory of all Tidewell-issued laptops, including the assigned user, model, serial number, and security status."
+        },
+        {
+          "source_id": "KB-07",
+          "section": "3.4",
+          "passage": "Company laptops must have full-disk encryption enabled before they are issued."
+        }
+      ],
+      "confidence": "high",
+      "needs_review": false,
+      "abstained": false,
+      "conflict_detected": false,
+      "reasoning_note": "The current Endpoint & Asset Management Standard (KB-27 v1.2) answers this directly, and the Encryption Standard (KB-07 v1.3) agrees. The 2024 past answers (KB-32) and the Physical Security Statement (KB-22) say the same thing but are less authoritative, so they are not cited."
+    },
+    {
+      "question_id": "Q-047",
+      "answer": "Our documents do not say whether Tidewell offers a bug bounty program with rewards or payments to researchers. What they do describe is a vulnerability reporting process: customers and external security researchers can report suspected vulnerabilities to security@tidewelldata.example. Tidewell acknowledges reports within 3 business days and keeps the reporter updated during the investigation. Reporters are asked not to access customer data, disrupt the service, or disclose the issue publicly before it is fixed.",
+      "citations": [
+        {
+          "source_id": "KB-16",
+          "section": "8. Reporting a Vulnerability",
+          "passage": "Customers and external security researchers can report suspected vulnerabilities to **security@tidewelldata.example**. Tidewell acknowledges reports within 3 business days and keeps the reporter informed as the issue is investigated."
+        },
+        {
+          "source_id": "KB-16",
+          "section": "8. Reporting a Vulnerability",
+          "passage": "Tidewell asks reporters not to access customer data, disrupt the service, or disclose the issue publicly before it is fixed."
+        }
+      ],
+      "confidence": "low",
+      "needs_review": true,
+      "abstained": false,
+      "conflict_detected": false,
+      "reasoning_note": "KB-16 v1.3 (effective Apr 15, 2026) §8 describes how vulnerabilities are reported, but two searches found nothing about a bounty or rewards. A human should confirm whether a paid bounty exists. Don't answer \"no\" just because the documents are silent."
+    },
+    {
+      "question_id": "Q-048",
+      "answer": "Our documents do not say whether the full penetration test report is shared, under NDA or otherwise. The Trust Center lists only a Penetration Test Summary Letter, which is available on request. That letter comes from Brightline Security, which ran the 2026 annual test, and gives findings counts by severity. As of May 29, 2026, it reports no open Critical or High findings.",
+      "citations": [
+        {
+          "source_id": "KB-01",
+          "section": "Policy Library",
+          "passage": "| Penetration Test Summary Letter | On request |"
+        },
+        {
+          "source_id": "KB-17",
+          "section": "Document header",
+          "passage": "**Classification:** Confidential — shared on request"
+        },
+        {
+          "source_id": "KB-17",
+          "section": "Document header",
+          "passage": "As of the date of this letter, **there are no open Critical or High findings.**"
+        }
+      ],
+      "confidence": "low",
+      "needs_review": true,
+      "abstained": false,
+      "conflict_detected": false,
+      "reasoning_note": "Retrieved sources (KB-01, KB-17) cover only the summary letter, shared on request. No document says whether the full report is shared under NDA (only the SOC 2 report is listed as NDA). A human must confirm the full-report policy."
+    },
+    {
+      "question_id": "Q-049",
+      "answer": "",
+      "citations": [],
+      "confidence": "low",
+      "needs_review": true,
+      "abstained": true,
+      "conflict_detected": false,
+      "reasoning_note": "None of the retrieved passages mentions a SOC or 24/7 staffing. Related context: KB-06 §7 says automated detection rules send alerts to the Security team's queue, with high/critical alerts escalated under the IRP; KB-10 §6.2 sets SEV1 triage within 30 minutes. A human should confirm the coverage model."
+    },
+    {
+      "question_id": "Q-050",
+      "answer": "Under the current Information Security Policy (v3.2), the Head of Security runs the security program day to day and reports on security posture to the executive team at least quarterly. The CTO is the accountable executive for the program. A Security & Compliance team implements and monitors security controls and manages the SOC 2 program. Our documents do not name the person in this role, do not use the title CISO, and do not give the size of the security team.",
+      "citations": [
+        {
+          "source_id": "KB-02",
+          "section": "3. Roles and Responsibilities",
+          "passage": "**Head of Security.** Owns the security program day to day. Maintains this policy and its supporting standards, oversees risk assessments, leads security incident response, and reports on security posture to the executive team at least quarterly."
+        },
+        {
+          "source_id": "KB-02",
+          "section": "3. Roles and Responsibilities",
+          "passage": "**Chief Technology Officer (CTO).** Accountable executive for the information security program."
+        },
+        {
+          "source_id": "KB-02",
+          "section": "3. Roles and Responsibilities",
+          "passage": "**Security & Compliance team.** Implements and monitors security controls, manages the SOC 2 program, responds to customer security questionnaires, and supports audits."
+        }
+      ],
+      "confidence": "low",
+      "needs_review": true,
+      "abstained": false,
+      "conflict_detected": false,
+      "reasoning_note": "Partial answer: KB-02 v3.2 describes security leadership roles but names no CISO or individual and gives no team headcount. Superseded KB-03 v2.4 and the 2024 answer library (KB-32 A-012) say the Director of Engineering owns the program. That is outdated and was not used."
+    }
+  ],
+  "logs": [
+    {
+      "question_id": "Q-022",
+      "agent_version": "v2",
+      "outcome": "answered",
+      "latency_ms": 12376,
+      "model_calls": 2,
+      "served_models": [
+        "claude-opus-5-5"
+      ],
+      "retrieval_calls": 1,
+      "searches": [
+        {
+          "query": "encryption at rest data stored",
+          "top_k": 5,
+          "results": [
+            {
+              "source_id": "KB-32",
+              "section": "A-027",
+              "score": 0.699390089584578
+            },
+            {
+              "source_id": "KB-07",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. Encryption at Rest",
+              "score": 0.685209032557781
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-045",
+              "score": 0.621611200475026
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-029",
+              "score": 0.61297865548667
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-030",
+              "score": 0.604530632495884
+            }
+          ]
+        }
+      ],
+      "validation_failures": 0,
+      "validation_issues": [],
+      "stop_reasons": [
+        "tool_use",
+        "tool_use"
+      ],
+      "usage": {
+        "input_tokens": 6,
+        "output_tokens": 914,
+        "cache_creation_input_tokens": 1168,
+        "cache_read_input_tokens": 9370
+      },
+      "cost_usd": 0.026018,
+      "ungrounded_citations": []
+    },
+    {
+      "question_id": "Q-036",
+      "agent_version": "v2",
+      "outcome": "answered",
+      "latency_ms": 8733,
+      "model_calls": 2,
+      "served_models": [
+        "claude-opus-5-5"
+      ],
+      "retrieval_calls": 1,
+      "searches": [
+        {
+          "query": "laptop full disk encryption MDM centrally managed",
+          "top_k": 5,
+          "results": [
+            {
+              "source_id": "KB-27",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. Asset Inventory / 4. Laptop Security Baseline",
+              "score": 0.670037944910659
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-058",
+              "score": 0.657557109448739
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-059",
+              "score": 0.620096418275896
+            },
+            {
+              "source_id": "KB-22",
+              "section": "Document header",
+              "score": 0.614671826362614
+            },
+            {
+              "source_id": "KB-07",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. Encryption at Rest",
+              "score": 0.613565467979592
+            }
+          ]
+        }
+      ],
+      "validation_failures": 0,
+      "validation_issues": [],
+      "stop_reasons": [
+        "tool_use",
+        "tool_use"
+      ],
+      "usage": {
+        "input_tokens": 6,
+        "output_tokens": 912,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11503
+      },
+      "cost_usd": 0.020565,
+      "ungrounded_citations": []
+    },
+    {
+      "question_id": "Q-047",
+      "agent_version": "v2",
+      "outcome": "answered",
+      "latency_ms": 22676,
+      "model_calls": 3,
+      "served_models": [
+        "claude-opus-5-5"
+      ],
+      "retrieval_calls": 2,
+      "searches": [
+        {
+          "query": "bug bounty program vulnerability disclosure",
+          "top_k": 5,
+          "results": [
+            {
+              "source_id": "KB-16",
+              "section": "6. Tracking / 7. Risk Acceptance / 8. Reporting a Vulnerability / 9. Revision History",
+              "score": 0.562709281202327
+            },
+            {
+              "source_id": "KB-01",
+              "section": "Policy Library / Contact",
+              "score": 0.516189009916127
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-054",
+              "score": 0.507409260339373
+            },
+            {
+              "source_id": "KB-16",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. How We Find Vulnerabilities / 4. Severity Ratings / 5. Remediation Timeframes",
+              "score": 0.486822321618269
+            },
+            {
+              "source_id": "KB-29",
+              "section": "Contact",
+              "score": 0.482640249965213
+            }
+          ]
+        },
+        {
+          "query": "researcher rewards bounty payment HackerOne Bugcrowd",
+          "top_k": 5,
+          "results": [
+            {
+              "source_id": "KB-16",
+              "section": "6. Tracking / 7. Risk Acceptance / 8. Reporting a Vulnerability / 9. Revision History",
+              "score": 0.422025327561783
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-054",
+              "score": 0.4210994149565
+            },
+            {
+              "source_id": "KB-29",
+              "section": "Contact",
+              "score": 0.393594252299577
+            },
+            {
+              "source_id": "KB-01",
+              "section": "Policy Library / Contact",
+              "score": 0.382621799345774
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-048",
+              "score": 0.378776311874392
+            }
+          ]
+        }
+      ],
+      "validation_failures": 0,
+      "validation_issues": [],
+      "stop_reasons": [
+        "tool_use",
+        "tool_use",
+        "tool_use"
+      ],
+      "usage": {
+        "input_tokens": 8,
+        "output_tokens": 1100,
+        "cache_creation_input_tokens": 1456,
+        "cache_read_input_tokens": 18124
+      },
+      "cost_usd": 0.032937,
+      "ungrounded_citations": []
+    },
+    {
+      "question_id": "Q-048",
+      "agent_version": "v2",
+      "outcome": "answered",
+      "latency_ms": 12897,
+      "model_calls": 3,
+      "served_models": [
+        "claude-opus-5-5"
+      ],
+      "retrieval_calls": 2,
+      "searches": [
+        {
+          "query": "penetration test report sharing with customers NDA",
+          "top_k": 5,
+          "results": [
+            {
+              "source_id": "KB-01",
+              "section": "Policy Library / Contact",
+              "score": 0.577160068408251
+            },
+            {
+              "source_id": "KB-04",
+              "section": "Document header",
+              "score": 0.501086652019822
+            },
+            {
+              "source_id": "KB-30",
+              "section": "Document header",
+              "score": 0.488370480925922
+            },
+            {
+              "source_id": "KB-17",
+              "section": "Document header",
+              "score": 0.486952008372309
+            },
+            {
+              "source_id": "KB-01",
+              "section": "Data Protection / Access and Identity / Availability / Security Testing / Incident Response",
+              "score": 0.479860786224464
+            }
+          ]
+        },
+        {
+          "query": "full pentest report confidential distribution",
+          "top_k": 5,
+          "category": "Vulnerability Management",
+          "results": [
+            {
+              "source_id": "KB-17",
+              "section": "Document header",
+              "score": 0.492590724538654
+            },
+            {
+              "source_id": "KB-16",
+              "section": "6. Tracking / 7. Risk Acceptance / 8. Reporting a Vulnerability / 9. Revision History",
+              "score": 0.454033732414258
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-049",
+              "score": 0.444065285940554
+            },
+            {
+              "source_id": "KB-16",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. How We Find Vulnerabilities / 4. Severity Ratings / 5. Remediation Timeframes",
+              "score": 0.415501733482094
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-047",
+              "score": 0.397914248456272
+            }
+          ]
+        }
+      ],
+      "validation_failures": 0,
+      "validation_issues": [],
+      "stop_reasons": [
+        "tool_use",
+        "tool_use",
+        "tool_use"
+      ],
+      "usage": {
+        "input_tokens": 8,
+        "output_tokens": 1025,
+        "cache_creation_input_tokens": 2500,
+        "cache_read_input_tokens": 19578
+      },
+      "cost_usd": 0.036948,
+      "ungrounded_citations": []
+    },
+    {
+      "question_id": "Q-049",
+      "agent_version": "v2",
+      "outcome": "abstained",
+      "latency_ms": 9317,
+      "model_calls": 3,
+      "served_models": [
+        "claude-opus-5-5"
+      ],
+      "retrieval_calls": 2,
+      "searches": [
+        {
+          "query": "24/7 security operations center SOC monitoring",
+          "top_k": 5,
+          "results": [
+            {
+              "source_id": "KB-06",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. What We Log / 4. Log Content",
+              "score": 0.498367995315554
+            },
+            {
+              "source_id": "KB-04",
+              "section": "Part 1: Report Summary",
+              "score": 0.494383007622779
+            },
+            {
+              "source_id": "KB-25",
+              "section": "6. Identity and Access / 7. Logging / 8. Secure Development / 9. Availability / 10. AI and Workspace Data / 11. Compliance",
+              "score": 0.491631955407146
+            },
+            {
+              "source_id": "KB-02",
+              "section": "7. Personnel Security / 8. Compliance / 9. Related Documents / 10. Revision History",
+              "score": 0.48775647471159
+            },
+            {
+              "source_id": "KB-04",
+              "section": "Part 1: Report Summary / Part 2: Bridge Letter",
+              "score": 0.479855034377272
+            }
+          ]
+        },
+        {
+          "query": "security alerts monitored around the clock on-call",
+          "top_k": 5,
+          "results": [
+            {
+              "source_id": "KB-06",
+              "section": "5. Log Storage and Protection / 6. Retention / 7. Monitoring and Alerting / 8. Customer Access to Logs / 9. Exceptions",
+              "score": 0.477557728973155
+            },
+            {
+              "source_id": "KB-02",
+              "section": "6. Core Security Requirements",
+              "score": 0.462482424826485
+            },
+            {
+              "source_id": "KB-10",
+              "section": "6. Response Phases",
+              "score": 0.446270608457399
+            },
+            {
+              "source_id": "KB-10",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. Definitions",
+              "score": 0.441043045582954
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-047",
+              "score": 0.432366545937452
+            }
+          ]
+        }
+      ],
+      "validation_failures": 0,
+      "validation_issues": [],
+      "stop_reasons": [
+        "tool_use",
+        "tool_use",
+        "tool_use"
+      ],
+      "usage": {
+        "input_tokens": 8,
+        "output_tokens": 566,
+        "cache_creation_input_tokens": 2798,
+        "cache_read_input_tokens": 21150
+      },
+      "cost_usd": 0.029572,
+      "ungrounded_citations": []
+    },
+    {
+      "question_id": "Q-050",
+      "agent_version": "v2",
+      "outcome": "answered",
+      "latency_ms": 12222,
+      "model_calls": 3,
+      "served_models": [
+        "claude-opus-5-5"
+      ],
+      "retrieval_calls": 2,
+      "searches": [
+        {
+          "query": "CISO chief information security officer security team size",
+          "top_k": 5,
+          "results": [
+            {
+              "source_id": "KB-02",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. Roles and Responsibilities",
+              "score": 0.499485388382834
+            },
+            {
+              "source_id": "KB-32",
+              "section": "A-012",
+              "score": 0.460186362266541
+            },
+            {
+              "source_id": "KB-10",
+              "section": "4. Severity Levels / 5. Roles",
+              "score": 0.459878249760814
+            },
+            {
+              "source_id": "KB-03",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. Roles and Responsibilities / 4. Governance / 5. Data Handling",
+              "score": 0.444193820203463
+            },
+            {
+              "source_id": "KB-28",
+              "section": "Document header / 1. Purpose / 2. When Risk Assessments Happen / 3. Identifying Risks / 4. Rating Risks / 5. Treating Risks",
+              "score": 0.436419606208801
+            }
+          ]
+        },
+        {
+          "query": "number of security staff headcount security engineers",
+          "top_k": 5,
+          "results": [
+            {
+              "source_id": "KB-20",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. Before Joining / 4. On Joining / 5. During Employment",
+              "score": 0.474638189310711
+            },
+            {
+              "source_id": "KB-02",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. Roles and Responsibilities",
+              "score": 0.464103235724665
+            },
+            {
+              "source_id": "KB-03",
+              "section": "6. Security Requirements / 7. Personnel Security / 8. Compliance / 9. Revision History",
+              "score": 0.450686395168304
+            },
+            {
+              "source_id": "KB-02",
+              "section": "7. Personnel Security / 8. Compliance / 9. Related Documents / 10. Revision History",
+              "score": 0.441049224294611
+            },
+            {
+              "source_id": "KB-03",
+              "section": "Document header / 1. Purpose / 2. Scope / 3. Roles and Responsibilities / 4. Governance / 5. Data Handling",
+              "score": 0.430957836337483
+            }
+          ]
+        }
+      ],
+      "validation_failures": 0,
+      "validation_issues": [],
+      "stop_reasons": [
+        "tool_use",
+        "tool_use",
+        "tool_use"
+      ],
+      "usage": {
+        "input_tokens": 8,
+        "output_tokens": 1063,
+        "cache_creation_input_tokens": 6949,
+        "cache_read_input_tokens": 17131
+      },
+      "cost_usd": 0.059463,
+      "ungrounded_citations": []
+    }
+  ]
+}

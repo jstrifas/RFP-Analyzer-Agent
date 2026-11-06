@@ -1,0 +1,119 @@
+{
+    "_note":  "Identical examples to few-shot.v1.json through v3 (v4 is a prompt-only change). Agent Spec §3: three worked examples (confident, partial, abstention); none of these questions appear in the gold set.",
+    "examples":  [
+                     {
+                         "kind":  "confident",
+                         "question":  {
+                                          "question_id":  "EX-1",
+                                          "text":  "What happens if an employee\u0027s laptop is lost or stolen?"
+                                      },
+                         "search":  {
+                                        "query":  "lost or stolen laptop device procedure",
+                                        "top_k":  5
+                                    },
+                         "passages":  [
+                                          {
+                                              "source_id":  "KB-27",
+                                              "title":  "Endpoint \u0026 Asset Management Standard",
+                                              "section":  "5. Lost or Stolen Devices",
+                                              "text":  "5.1 Personnel must report a lost or stolen device to the Security team immediately.\n\n5.2 The Security team remotely locks the device and revokes its sessions. If the device is not recovered, it is remotely wiped.",
+                                              "score":  0.91
+                                          }
+                                      ],
+                         "submit_answer":  {
+                                               "question_id":  "EX-1",
+                                               "answer":  "Employees must report a lost or stolen device to the Security team immediately. The Security team then remotely locks the device and revokes its sessions, and remotely wipes it if it is not recovered.",
+                                               "citations":  [
+                                                                 {
+                                                                     "source_id":  "KB-27",
+                                                                     "section":  "5.1",
+                                                                     "passage":  "Personnel must report a lost or stolen device to the Security team immediately."
+                                                                 },
+                                                                 {
+                                                                     "source_id":  "KB-27",
+                                                                     "section":  "5.2",
+                                                                     "passage":  "The Security team remotely locks the device and revokes its sessions. If the device is not recovered, it is remotely wiped."
+                                                                 }
+                                                             ],
+                                               "confidence":  "high",
+                                               "needs_review":  false,
+                                               "abstained":  false,
+                                               "conflict_detected":  false,
+                                               "reasoning_note":  "KB-27 §5 directly describes the reporting and response steps."
+                                           }
+                     },
+                     {
+                         "kind":  "partial",
+                         "question":  {
+                                          "question_id":  "EX-2",
+                                          "text":  "Is your incident response plan tested, and are the test results shared with customers?"
+                                      },
+                         "search":  {
+                                        "query":  "incident response plan testing tabletop exercise results",
+                                        "top_k":  5
+                                    },
+                         "passages":  [
+                                          {
+                                              "source_id":  "KB-10",
+                                              "title":  "Incident Response Plan",
+                                              "section":  "9. Testing and Training",
+                                              "text":  "9.1 This plan is tested at least annually through a tabletop exercise involving Security, Engineering, Legal, and Communications.\n\n9.3 Findings from tests are tracked to completion like post-incident actions.",
+                                              "score":  0.88
+                                          }
+                                      ],
+                         "submit_answer":  {
+                                               "question_id":  "EX-2",
+                                               "answer":  "Yes, the incident response plan is tested at least annually through a tabletop exercise involving Security, Engineering, Legal, and Communications, and findings are tracked to completion. Our documents do not say whether test results are shared with customers.",
+                                               "citations":  [
+                                                                 {
+                                                                     "source_id":  "KB-10",
+                                                                     "section":  "9.1",
+                                                                     "passage":  "This plan is tested at least annually through a tabletop exercise involving Security, Engineering, Legal, and Communications."
+                                                                 },
+                                                                 {
+                                                                     "source_id":  "KB-10",
+                                                                     "section":  "9.3",
+                                                                     "passage":  "Findings from tests are tracked to completion like post-incident actions."
+                                                                 }
+                                                             ],
+                                               "confidence":  "low",
+                                               "needs_review":  true,
+                                               "abstained":  false,
+                                               "conflict_detected":  false,
+                                               "reasoning_note":  "Testing is documented in KB-10 §9; nothing retrieved covers sharing results with customers, so that part needs a human answer."
+                                           }
+                     },
+                     {
+                         "kind":  "abstention",
+                         "question":  {
+                                          "question_id":  "EX-3",
+                                          "text":  "What is your average time to resolve support tickets?"
+                                      },
+                         "search":  {
+                                        "query":  "support ticket resolution time average",
+                                        "top_k":  5
+                                    },
+                         "passages":  [
+                                          {
+                                              "source_id":  "KB-29",
+                                              "title":  "Support \u0026 Service Level Agreement",
+                                              "section":  "Support by Plan",
+                                              "text":  "| First response — Urgent | 1 business day | 4 business hours | 1 hour |\n| First response — Normal | 2 business days | 1 business day | 4 business hours |",
+                                              "score":  0.64
+                                          }
+                                      ],
+                         "submit_answer":  {
+                                               "question_id":  "EX-3",
+                                               "answer":  "",
+                                               "citations":  [
+
+                                                             ],
+                                               "confidence":  "low",
+                                               "needs_review":  true,
+                                               "abstained":  true,
+                                               "conflict_detected":  false,
+                                               "reasoning_note":  "KB-29 gives first-response targets by plan, not resolution times. No retrieved passage states an average resolution time."
+                                           }
+                     }
+                 ]
+}

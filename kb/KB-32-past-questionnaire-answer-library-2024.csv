@@ -1,0 +1,61 @@
+answer_id,category,question,approved_answer,last_reviewed
+A-001,General,Provide a brief description of your company and services.,"Tidewell Data, Inc. was founded in 2018. Tidewell Sync syncs data between SaaS applications and cloud data warehouses. Tidewell Insights is an analytics add-on.",2024-08-12
+A-002,General,Where is your service hosted?,Tidewell is hosted entirely on Amazon Web Services (AWS).,2024-08-12
+A-003,General,In which regions can customer data be hosted?,US customers are hosted in AWS us-east-1 and EU customers in AWS eu-west-1.,2024-08-12
+A-004,General,Do you own or operate data centers?,No. Tidewell relies on AWS data centers and AWS's physical security controls.,2024-08-12
+A-005,Compliance,Do you have a SOC 2 report?,"Yes. Tidewell holds a SOC 2 Type I report (as of June 30, 2023). A SOC 2 Type II examination is in progress.",2024-08-12
+A-006,Compliance,Which Trust Services Criteria are covered by your SOC 2?,"Security, Availability, and Confidentiality.",2024-08-12
+A-007,Compliance,Do you offer a Data Processing Addendum?,Yes. Our standard DPA is incorporated into the subscription agreement.,2024-08-12
+A-008,Compliance,Do you support GDPR compliance?,Yes. Tidewell acts as a processor for customer personal data and supports customers' GDPR obligations through our DPA.,2024-08-12
+A-009,Compliance,How do you handle international data transfers?,"Where personal data is transferred out of the EEA, UK, or Switzerland, we rely on the Standard Contractual Clauses.",2024-08-12
+A-010,Compliance,Do you comply with CCPA?,Yes. Tidewell acts as a service provider and does not sell customer personal information.,2024-08-12
+A-011,Governance,Do you have a documented information security policy?,Yes. Our Information Security Policy is reviewed at least annually.,2024-08-12
+A-012,Governance,Who is responsible for your information security program?,"The Director of Engineering owns the information security program, with executive accountability held by the CTO.",2024-08-12
+A-013,Governance,How often are security policies reviewed?,At least annually.,2024-08-12
+A-014,Governance,Do you perform risk assessments?,"Yes, at least annually, and results are tracked in a risk register.",2024-08-12
+A-015,Governance,How is customer data classified?,"Customer data is classified as Confidential, our highest data classification.",2024-08-12
+A-016,Access Control,Is MFA required for your employees?,MFA is required for production systems and the AWS console. MFA is recommended for other internal tools.,2024-08-12
+A-017,Access Control,What is your password policy for employees?,Passwords must be at least 12 characters and are changed every 90 days.,2024-08-12
+A-018,Access Control,How quickly is access removed when an employee leaves?,Access is removed within 3 business days of the employee's last working day.,2024-08-12
+A-019,Access Control,Do you perform user access reviews?,Yes. Access to production systems is reviewed quarterly.,2024-08-12
+A-020,Access Control,Is access based on least privilege?,Yes. Access is granted based on job role and business need.,2024-08-12
+A-021,Access Control,Can Tidewell staff access customer data?,Tidewell support staff can access a customer's workspace only when an Admin in that workspace grants a support session. Actions during support sessions are logged.,2024-08-12
+A-022,Access Control,Are shared accounts permitted?,"No. Every person uses a unique, individually assigned account.",2024-08-12
+A-023,Customer Identity,Do you support SSO?,Yes. SAML 2.0 single sign-on is available on the Enterprise plan.,2024-08-12
+A-024,Customer Identity,Do you support SCIM?,"Yes, SCIM 2.0 provisioning is available on the Enterprise plan.",2024-08-12
+A-025,Customer Identity,Can customers enforce MFA for their users?,Yes. Admins on any plan can require MFA for all users in their workspace.,2024-08-12
+A-026,Customer Identity,What user roles are available?,"Admin, Editor, and Viewer roles are available on all plans.",2024-08-12
+A-027,Encryption,Is customer data encrypted at rest?,"Yes, using AES-256.",2024-08-12
+A-028,Encryption,Is data encrypted in transit?,Yes. All connections use TLS 1.2 or higher.,2024-08-12
+A-029,Encryption,How are encryption keys managed?,Encryption keys are managed through AWS Key Management Service (KMS).,2024-08-12
+A-030,Encryption,How are credentials for connected systems stored?,Credentials customers provide to connect source systems and warehouses are encrypted before storage and never written to logs.,2024-08-12
+A-031,Data Management,How long is customer data retained after contract termination?,Customer data is deleted within 30 days of termination.,2024-08-12
+A-032,Data Management,Can customers request earlier deletion?,Yes. An authorized Admin can request deletion sooner than 30 days after termination.,2024-08-12
+A-033,Data Management,Is production data used in development or testing?,No. Testing uses synthetic data.,2024-08-12
+A-034,Data Management,Do you use customer data to train AI models?,No. Tidewell does not use customer data to train machine learning or AI models.,2024-08-12
+A-035,Data Management,Do you sell customer data?,No.,2024-08-12
+A-036,Subprocessors,Please list your subprocessors.,"Amazon Web Services (hosting), Loglane (logging and monitoring), Quillmark Support (support ticketing), Postwise (transactional email), Ledgerpoint (billing).",2024-08-12
+A-037,Subprocessors,Who handles your customer support tickets?,"Support tickets are handled through Quillmark Support, Inc., which processes data in the United States.",2024-08-12
+A-038,Subprocessors,Do you notify customers of subprocessor changes?,Yes. Tidewell gives at least 30 days' notice before adding or replacing a subprocessor.,2024-08-12
+A-039,Vendor Management,Do you assess the security of your vendors?,Yes. Vendors are reviewed before onboarding and critical vendors are reviewed annually.,2024-08-12
+A-040,Business Continuity,Do you have a business continuity and disaster recovery plan?,Yes. The plan is reviewed annually and tested at least annually.,2024-08-12
+A-041,Business Continuity,What are your RPO and RTO?,Our Recovery Point Objective is 4 hours and our Recovery Time Objective is 12 hours.,2024-08-12
+A-042,Business Continuity,Is your service deployed across multiple availability zones?,Yes. Production runs across multiple AWS Availability Zones in each region.,2024-08-12
+A-043,Business Continuity,How often are backups taken?,Production databases are backed up daily.,2024-08-12
+A-044,Business Continuity,How long are backups retained?,Backups are retained for 35 days.,2024-08-12
+A-045,Business Continuity,Are backups encrypted?,"Yes, backups are encrypted with AES-256.",2024-08-12
+A-046,Business Continuity,What is your uptime SLA?,Tidewell commits to 99.5% monthly uptime on the Business and Enterprise plans.,2024-08-12
+A-047,Vulnerability Management,How often do you scan for vulnerabilities?,Infrastructure is scanned continuously and application dependencies are scanned on every pull request.,2024-08-12
+A-048,Vulnerability Management,What are your remediation timelines for vulnerabilities?,Critical vulnerabilities are remediated within 14 days and High vulnerabilities within 30 days.,2024-08-12
+A-049,Vulnerability Management,Do you conduct penetration testing?,Yes. An independent third party performs a penetration test at least annually. The most recent test was completed in October 2023.,2024-08-12
+A-050,Secure Development,Do you perform code reviews?,Yes. Every production code change requires review by at least one other engineer.,2024-08-12
+A-051,Secure Development,Do you scan code for secrets?,Yes. Secret scanning runs on every commit.,2024-08-12
+A-052,Change Management,How are changes deployed to production?,All changes are deployed through an automated CI/CD pipeline and can be rolled back.,2024-08-12
+A-053,Incident Response,Do you have an incident response plan?,Yes. Our Incident Response Plan is documented and tested at least annually through a tabletop exercise.,2024-08-12
+A-054,Incident Response,How can security issues be reported to Tidewell?,Security issues can be reported to security@tidewelldata.example.,2024-08-12
+A-055,Human Resources,Do you perform background checks on employees?,"Yes, for all new hires before their start date, where permitted by local law.",2024-08-12
+A-056,Human Resources,Do employees receive security awareness training?,"Yes, during onboarding and annually thereafter.",2024-08-12
+A-057,Human Resources,Do employees sign confidentiality agreements?,"Yes, before receiving system access.",2024-08-12
+A-058,Endpoint Security,Are employee laptops encrypted?,Yes. All company laptops have full-disk encryption enabled.,2024-08-12
+A-059,Endpoint Security,Are employee devices centrally managed?,Yes. All company laptops are enrolled in mobile device management.,2024-08-12
+A-060,Physical Security,Do you store customer data in your offices?,No. Tidewell is remote-first and does not store customer data in any office.,2024-08-12

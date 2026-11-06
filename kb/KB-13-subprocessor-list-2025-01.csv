@@ -1,0 +1,6 @@
+subprocessor,purpose,data_processed,processing_location,applies_to,last_updated
+"Amazon Web Services, Inc.",Cloud hosting and infrastructure,All customer data and account data,"United States (us-east-1) for US customers; Ireland (eu-west-1) for EU customers",All customers,2025-01-06
+"Loglane, Inc.",Centralized logging and security monitoring,Logs and event metadata (customer record contents are masked),"United States for US customers; Ireland for EU customers",All customers,2025-01-06
+"Quillmark Support, Inc.",Customer support ticketing,Support ticket contents and requester contact details,United States,All customers,2025-01-06
+"Postwise, Inc.",Transactional email delivery,Account data (names and email addresses),United States,All customers,2025-01-06
+"Ledgerpoint, Inc.",Billing and invoicing,Account data (billing contacts and invoice details),United States,All customers,2025-01-06
