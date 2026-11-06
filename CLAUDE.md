@@ -39,6 +39,7 @@ Next.js on Vercel · Supabase Postgres + pgvector (retrieval and run storage) ·
 ## Demo UI (`app/`)
 - `/api/answer` streams the agent's progress as NDJSON through the optional `onEvent` callback on `answerQuestion`; only the question text reaches the agent.
 - The Report Card reads `runs/` and `grades/` from disk. The version list is `VERSIONS` in `app/_lib/report.ts`, so add a row there when a new version is graded.
+- Deploying (Vercel): pages read data files at request time, which build tracing can't detect, so they're bundled through `DATA_FILES` (`outputFileTracingIncludes`) in `next.config.ts`. A new data file or folder a page reads must be added there, or the deployed page will fail. The live pages also need `ANTHROPIC_API_KEY`, `VOYAGE_API_KEY`, `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` set in the Vercel project's environment variables. The Report Card needs none.
 
 ## Agent loop (`src/agent/answer.ts`)
 Per question: up to 3 `search_knowledge_base` calls (top_k default 5) → `submit_answer` → `validateAnswer` → retry once with `retryMessage` → else `abstainFallback`. Questions are answered independently (no conversational memory). Log per question: tokens, cost, latency, retrieval calls, validation failures, agent version, served model, citation grounding. Claude Opus 5.5 rejects forced `tool_choice`, so the loop enforces the submit (see Agent Spec §4).
