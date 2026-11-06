@@ -1,50 +1,83 @@
 # Cited
 
-**An RFP and security-questionnaire answering agent, plus a Report Card that measures whether its answers can be trusted.**
+**Security questionnaire answers you can prove.**
+
+Cited is an AI agent that drafts answers to enterprise security questionnaires from a vendor's own policy documents, plus a Report Card that measures whether those answers can be trusted.
 
 > An enterprise agent is only as valuable as your ability to prove it works.
 
-Before an enterprise buys software, its security team sends the vendor a questionnaire of 100–300 questions. Answering it pulls sales engineers and security staff off real work for days, and a wrong answer creates legal and trust risk. LLMs can now draft these answers, so the hard part has moved from *generating* answers to *trusting* them.
+**▶ Live demo: https://rfp-agent-git-main-jstrifa-bits-projects.vercel.app/**
 
-Cited does both halves:
+---
 
-- **The agent** answers each question only from a vendor's policy documents. Every claim carries a verbatim citation, and every answer carries a confidence level and a review flag. When the documents don't say, it replies "not in our documents" instead of guessing.
-- **The Report Card** runs the agent on a 50-question gold set, grades each answer with a different model family, and checks that grader against human grading.
+## The problem
 
-This is a portfolio project for Enterprise AI Platform PM roles. The vendor (Tidewell Data), its 32 documents and the buyer (Spartan Apex Benefits) are all fictional.
+Before an enterprise buys software, its security team sends the vendor a questionnaire, often 100–300 questions long and on the deal's critical path. Answering it pulls sales engineers and security staff off real work for days, and one wrong answer is a legal and trust risk, so teams can't accept AI drafts blindly.
+
+AI can now draft these answers in minutes. The hard part has moved from *writing* answers to *trusting* them. Most AI RFP tools sell speed; few show evidence that their answers are right.
+
+## What Cited does
+
+- **Answers only from the vendor's documents.** It never draws on general knowledge, and every claim carries a verbatim quote from the passage that backs it.
+- **Shows its evidence.** The quoted words are highlighted inside the source passage, so a reviewer can check an answer in seconds.
+- **Says "not in our documents" instead of guessing.** Questions the documents don't answer are refused and sent to a human.
+- **Tells you where to look.** Every answer carries a confidence level and a review flag, shown as a colored band:
+
+  | Band | Meaning |
+  |---|---|
+  | 🟢 **No review needed** | High confidence, fully supported by the documents |
+  | 🟠 **Check this before it's sent** | Sources conflict, or the answer is partial or less certain |
+  | 🔴 **A human must answer this** | The documents don't say; no answer was drafted |
+
+- **Proves it works.** The Report Card scores every version of the agent against a fixed 50-question test set, using an independent grader that is itself checked against human grading.
+
+## Who it's for
+
+- **Proposal and sales-engineering managers**, who need a complete, accurate questionnaire without stalling the deal. Cited drafts every answer with its sources and flags the ones that need attention, so review time goes where it matters.
+- **AI platform owners and reviewers**, who need to decide whether an agent is reliable enough to trust and to catch regressions when prompts or models change.
+
+## Try the demo
+
+| Page | What it shows |
+|---|---|
+| [**Home**](https://rfp-agent-git-main-jstrifa-bits-projects.vercel.app/) | What Cited does, who it's for and the results. **Begin** leads into the app |
+| [**Ask**](https://rfp-agent-git-main-jstrifa-bits-projects.vercel.app/ask) | Ask one question and watch the agent search, cite and decide live. Samples cover conflicting policies, an outdated policy, a hidden instruction, and a question the documents can't answer |
+| [**Questionnaire**](https://rfp-agent-git-main-jstrifa-bits-projects.vercel.app/questionnaire) | Paste or upload a CSV of questions, answer them in parallel, review the flagged ones and download the results |
+| [**Report Card**](https://rfp-agent-git-main-jstrifa-bits-projects.vercel.app/report) | Baseline vs final results, results by trap type, and every graded answer next to the grader's reasoning and the human-written gold answer |
+
+The vendor (Tidewell Data), its 32 policy documents and the buyer scenario are fictional.
 
 ## Results
 
-Four prompt versions, each graded on the same gold set: 39 answerable questions with planted traps and 11 that should be refused. An answer passes only if it passes all five rubric checks: correctness, citation support, behavior, safety and review flags.
+Results against the PRD's targets, baseline vs final. All runs are on the 50-question tuning set: 39 answerable questions with planted traps, such as outdated policies, contradictions and hidden instructions, plus 11 questions the agent should refuse. An answer passes only if it passes all five rubric checks: correctness, citation support, behavior, safety and review flags.
 
-| Metric | Target | v1 | v2 | v3 | v4 |
-|---|---|---|---|---|---|
-| Answer correctness | ≥ 85% | 62% | 94% | 90% | **100%** |
-| Citation precision | ≥ 95% | 98.6% | 100% | 100% | **100%** |
-| Unsupported-claim rate | ≤ 3% | 7% | 15% | 2.4% | **0%** |
-| Correct abstention | ≥ 10 of 11 | 7 | 10 | 9 | **11** |
-| Confidence calibration | ≥ 95% | 95.7% | 97.2% | 91.9% | **100%** |
-| Grader–human agreement | ≥ 85% | 20/20 | not run | 20/20 | **20/20** |
-| Answers sent for human review | reported | 27 | 15 | 15 | 13 |
+| Metric | Target | Baseline (v1) | Final (v4) |
+|---|---|---|---|
+| Answer correctness (passes all five checks) | ≥ 85% | 62% | **100%** |
+| Citation precision (citations that support their claim) | ≥ 95% | 98.6% | **100%** |
+| Unsupported-claim rate | ≤ 3% | 7% | **0%** |
+| Correct abstention (unanswerable questions refused) | ≥ 10 of 11 | 7 | **11** |
+| Confidence calibration (high-confidence answers that pass) | ≥ 95% | 95.7% | **100%** |
+| Grader–human agreement (20 hand-graded answers) | ≥ 85% | 20/20 | **20/20** |
 
-v1 → v4 improved correctness by **38 points**, against a target of 15. A 50-question run costs about $2 and takes about 9 seconds per question. Full results, including every graded answer, are in [`grades/`](grades/) and on the demo's Report Card page.
+**+38 points** on correctness against a +15 target, measured on the tuning set. Answers flagged for human review fell from 27 to 13. A question takes about 9 seconds, and a 50-question run costs about $2.
 
-### Each version was earned by a failure
+### How the final version was earned
 
-Rules were added only after the Report Card showed a failure, and kept general, so the gains aren't the result of teaching to the test. Each prompt file's header records the evidence for its rules.
+Four prompt versions, each rule added only after the Report Card measured a failure, and kept general so the gains aren't the result of teaching to the test:
 
-| Version | Change | Evidence |
-|---|---|---|
-| [v1](prompts/cited-system.v1.md) | Deliberately general baseline | Failed 11 of 12 questions where an outdated policy disagrees with the current one, as the spec predicted |
-| [v2](prompts/cited-system.v2.md) | Prefer current, authoritative sources; related context isn't a partial answer | Fixed 15 questions and broke none, but uncited details rose to 15% |
-| [v3](prompts/cited-system.v3.md) | Every specific detail needs a quote | Unsupported claims fell to 2.4%; repeat runs showed its correctness dip was noise |
-| [v4](prompts/cited-system.v4.md) | Sharper abstain test; report the whole relevant set | Targeted two questions that failed 12 of 12 repeat runs |
+1. **Baseline (v1):** a deliberately general prompt. It failed 11 of 12 questions where an outdated policy disagrees with the current one.
+2. **Prefer current, authoritative sources** fixed those, but answers began stating details their quotes didn't cover.
+3. **Every specific detail needs a quote** brought unsupported claims back down.
+4. **Final (v4):** a sharper test for when to refuse, and complete answers, aimed at two questions that failed in every one of 12 repeat runs.
 
-### Read these numbers with care
+Each prompt file in [`prompts/`](prompts/) records the evidence behind its rules in its header.
 
-- Versions 2–4 were diagnosed and tuned on these same 50 questions, and there is no held-out set yet, so v4's score is optimistic.
-- Grading the same v4 answers twice changed one verdict, so a fair range for v4's correctness is 98–100%.
-- The same person wrote the knowledge base and the gold answers. The PRD discloses this as an open risk.
+### Honest limits
+
+- Prompts were revised against these 50 questions, so the final score is optimistic. A held-out set is next.
+- Re-grading the same answers moved one verdict: a fair range for the final version is 98–100%.
+- Knowledge base generated with Claude; gold answers drafted by human and corrected by me; graded by Gemini. No model grades its own output. All data is fictional.
 
 ## How it works
 
@@ -54,30 +87,24 @@ question ──► agent (Claude Opus 5.5)
                ▼
              submit_answer ──► Zod validation ──► one retry with the issues quoted ──► else abstain
                ▼
-             answer record: answer, citations, confidence, needs_review, abstained, conflict_detected
+             answer: text, citations, confidence, needs_review, abstained, conflict_detected
 
-gold set ──► run all 50 ──► Gemini grades 4 checks + code checks behavior and review flags ──► Report Card
-                                                     └─► 20-answer blind sample ──► human agreement
+test set ──► run all 50 ──► Gemini grades + code checks behavior and review flags ──► Report Card
+                                             └─► blind 20-answer sample ──► human agreement
 ```
 
-- **One agent, one tool.** Each question is answered independently: no conversational memory and no multi-agent handoffs, so every failure has one place to look.
-- **The answer contract** is a Zod schema ([`src/schema.ts`](src/schema.ts)) with cross-field rules. For example, an abstained answer must be empty and low confidence, and a conflict needs at least two cited sources.
-- **The grader is a different model family** (Gemini) from the agent (Claude), pinned and logged with every grade. Parts of the rubric are decided in code, so the grader can't argue its way past a flag mismatch.
-- **The grader is graded.** Human grading of blind samples found a rubric gap: confidence wasn't being checked. Adding a fifth check brought grader–human agreement to 60 of 60.
-- **Only `kb/` is ever retrieved.** The gold set and answer key in `eval/` never reach the agent.
+Key product decisions:
 
-## Demo
-
-Live at **https://rfp-agent-flame.vercel.app**, or run it locally with `npm run dev` at http://localhost:3000:
-
-- **Landing page** (`/`): what Cited does, who it's for, the problem and the results, with **Begin** leading into the app.
-- **Ask** (`/ask`): type a question, or try a sample: two policies conflict, an outdated policy disagrees, a question hides an instruction, or the answer isn't in the documents. You watch each search live, then see the answer with its review flags and every quote highlighted inside the source passage.
-- **Questionnaire** (`/questionnaire`): paste or upload a CSV of questions, answer them in parallel, review the flagged ones, and download the results.
-- **Report Card** (`/report`): the baseline and final versions from the table above, results by trap type, and every graded answer next to the grader's reasoning and the human-written gold answer.
+- **Abstention is a feature.** "I can't answer this" is tested as hard as a correct answer.
+- **The grader is graded.** Gemini, a different model family from the agent, grades every answer. Human review of blind samples found a rubric gap (confidence wasn't being checked); adding a fifth check brought grader–human agreement to 60 of 60.
+- **One agent, one tool.** Each question is answered independently, with no conversational memory, so every failure has one place to look.
+- **A strict answer contract.** A Zod schema ([`src/schema.ts`](src/schema.ts)) enforces cross-field rules. For example, a refused answer must be empty, and a conflict must cite at least two sources.
+- **Prompts, not fine-tuning,** so every change stays explainable.
+- **Only `kb/` is ever retrieved.** The test set and answer key in `eval/` never reach the agent.
 
 ## Running it yourself
 
-You need Node.js 22 or newer (tested on 24), a Supabase project, and API keys for Anthropic, Voyage AI and Google Gemini.
+You need Node.js 22 or newer (tested on 24), a Supabase project, and API keys for Anthropic, Voyage AI and Google Gemini (Gemini only for grading).
 
 1. Install dependencies and create your environment file:
 
@@ -86,7 +113,7 @@ You need Node.js 22 or newer (tested on 24), a Supabase project, and API keys fo
    cp .env.example .env
    ```
 
-   Fill in `.env` with your Supabase URL and secret key, `VOYAGE_API_KEY`, `ANTHROPIC_API_KEY` and `GEMINI_API_KEY`. The `.env` file is gitignored.
+   Fill in `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VOYAGE_API_KEY`, `ANTHROPIC_API_KEY` and `GEMINI_API_KEY`. The `.env` file is gitignored.
 
 2. Create the retrieval tables: run [`supabase/migrations/20261103000000_kb_retrieval.sql`](supabase/migrations/20261103000000_kb_retrieval.sql) in your Supabase project's SQL Editor. It enables pgvector and creates `kb_documents`, `kb_chunks` and the `match_kb_chunks` search function.
 
@@ -97,7 +124,7 @@ You need Node.js 22 or newer (tested on 24), a Supabase project, and API keys fo
    npm run search -- "Do you encrypt customer data at rest?"
    ```
 
-4. Start the demo:
+4. Start the demo at http://localhost:3000:
 
    ```bash
    npm run dev
@@ -107,30 +134,39 @@ You need Node.js 22 or newer (tested on 24), a Supabase project, and API keys fo
 
 | Command | What it does |
 |---|---|
-| `npm run agent -- --questions eval/gold-set-v0.6.csv` | Runs the adopted agent on every gold question (only the question text is read) and writes `runs/<run_id>.json` |
+| `npm run agent -- --questions eval/gold-set-v0.6.csv` | Runs the agent on every test question (only the question text is read) and writes `runs/<run_id>.json`. Add `--prompt-version v1` to reproduce the baseline |
 | `npm run grade -- --run runs/<run_id>.json` | Gemini grades a run and writes `grades/<run_id>.json`, plus a blind 20-answer sample for human grading |
 | `npm run agreement -- --grades grades/<run_id>.json` | Compares your filled-in human sample with the grader |
 | `npm run rescore -- --run runs/<run_id>.json` | Re-applies the code-decided checks to stored verdicts, with no API calls |
 | `npm run check`, `check:agent`, `check:grader` | Offline self-tests for the schema, agent loop and grader (no API calls) |
-| `npm run typecheck` | TypeScript check |
 
-Use `--prompt-version v1` (or `v2`, `v3`) on `npm run agent` to reproduce an earlier version.
+### Deploying to Vercel
+
+Import the repo into Vercel; it builds with `npm run build`. Then:
+
+- Add `ANTHROPIC_API_KEY`, `VOYAGE_API_KEY`, `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` under **Settings → Environment Variables**, for the **Production** environment, using exactly those names, and redeploy. The Report Card works without them.
+- To make the site public, turn off **Vercel Authentication** under **Settings → Deployment Protection**. With the keys set, anyone with the link can run questions on your API accounts.
+- Pages read data files at request time, so those files are bundled explicitly in [`next.config.ts`](next.config.ts) (`DATA_FILES`). Add any new data folder there.
 
 ## Repository layout
 
 | Path | Contents |
 |---|---|
 | [`kb/`](kb/) | The fictional vendor's 32 policy documents, the agent's only source of truth, including deliberate traps |
-| [`eval/`](eval/) | Gold set, grading guide and knowledge-base answer key. Never retrieved by the agent |
+| [`eval/`](eval/) | Test set, grading guide and knowledge-base answer key. Never retrieved by the agent |
 | [`prompts/`](prompts/) | System prompts v1–v4 and few-shot examples |
 | [`src/agent/`](src/agent/) | The agent loop, tools and prompt loading |
 | [`src/kb/`](src/kb/) | Chunking, embeddings and retrieval |
 | [`src/grade/`](src/grade/) | Rubric, grader and Report Card metrics |
 | [`scripts/`](scripts/) | CLI entry points and offline self-tests |
-| [`app/`](app/) | Next.js demo UI |
+| [`app/`](app/) | Next.js demo: landing page, Ask, Questionnaire and Report Card |
 | [`runs/`](runs/), [`grades/`](grades/) | Recorded runs and their graded Report Cards |
 | [`docs/`](docs/) | [PRD](docs/PRD-cited.md) (what and why) and [Agent Spec](docs/AGENT-SPEC-cited.md) (how, with a change log of every decision) |
 
 ## Stack
 
-TypeScript · Next.js · Supabase Postgres + pgvector · Voyage AI embeddings · Claude Opus 5.5 (agent) · Gemini 3.1 Pro (grader) · Zod
+TypeScript · Next.js on Vercel · Supabase Postgres + pgvector · Voyage AI embeddings · Claude Opus 5.5 (agent) · Gemini 3.1 Pro (grader) · Zod
+
+---
+
+Built by John Strifas as a portfolio project for Enterprise AI Platform PM roles.
