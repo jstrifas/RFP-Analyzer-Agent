@@ -68,11 +68,12 @@ gold set ──► run all 50 ──► Gemini grades 4 checks + code checks beh
 
 ## Demo
 
-`npm run dev` starts a local web app at http://localhost:3000:
+Live at **https://rfp-agent-flame.vercel.app**, or run it locally with `npm run dev` at http://localhost:3000:
 
-- **Ask:** type a question, or try a sample: two policies conflict, an outdated policy disagrees, a question hides an instruction, or the answer isn't in the documents. You watch each search live, then see the answer with its review flags and every quote highlighted inside the source passage.
-- **Questionnaire:** paste or upload a CSV of questions, answer them in parallel, review the flagged ones, and download the results.
-- **Report Card:** the table above, results by trap type, and every graded answer next to the grader's reasoning and the human-written gold answer.
+- **Landing page** (`/`): what Cited does, who it's for, the problem and the results, with **Begin** leading into the app.
+- **Ask** (`/ask`): type a question, or try a sample: two policies conflict, an outdated policy disagrees, a question hides an instruction, or the answer isn't in the documents. You watch each search live, then see the answer with its review flags and every quote highlighted inside the source passage.
+- **Questionnaire** (`/questionnaire`): paste or upload a CSV of questions, answer them in parallel, review the flagged ones, and download the results.
+- **Report Card** (`/report`): the baseline and final versions from the table above, results by trap type, and every graded answer next to the grader's reasoning and the human-written gold answer.
 
 ## Running it yourself
 

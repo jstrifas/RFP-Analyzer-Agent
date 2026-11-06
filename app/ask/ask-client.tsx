@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { AgentEvent } from "../src/agent/answer.js";
-import { AnswerCard, AnswerSkeleton } from "./_components/AnswerCard";
-import { Exhibits, passagesFrom, Trail } from "./_components/Evidence";
-import type { Sample } from "./_lib/samples";
-import { streamAnswer, type AnswerResult } from "./_lib/stream";
+import type { AgentEvent } from "../../src/agent/answer.js";
+import { AnswerCard, AnswerSkeleton } from "../_components/AnswerCard";
+import { Exhibits, passagesFrom, Trail } from "../_components/Evidence";
+import type { Sample } from "../_lib/samples";
+import { streamAnswer, type AnswerResult } from "../_lib/stream";
 
 export function AskClient({ samples }: { samples: Sample[] }) {
   const [text, setText] = useState("");

@@ -37,6 +37,7 @@ Next.js on Vercel · Supabase Postgres + pgvector (retrieval and run storage) ·
 - `npm run dev` — demo UI at http://localhost:3000 (Ask, Questionnaire, Report Card). Uses webpack, not Turbopack: `src/` imports `.ts` files with `.js` specifiers, which only webpack's `extensionAlias` maps (see `next.config.ts`). The web app has its own `tsconfig.web.json`.
 
 ## Demo UI (`app/`)
+- Routes: `/` landing page (Begin → `/ask`), `/ask`, `/questionnaire`, `/report` (only versions with `shown: true` in `VERSIONS`: v1 and v4).
 - `/api/answer` streams the agent's progress as NDJSON through the optional `onEvent` callback on `answerQuestion`; only the question text reaches the agent.
 - The Report Card reads `runs/` and `grades/` from disk. The version list is `VERSIONS` in `app/_lib/report.ts`, so add a row there when a new version is graded.
 - Deploying (Vercel): pages read data files at request time, which build tracing can't detect, so they're bundled through `DATA_FILES` (`outputFileTracingIncludes`) in `next.config.ts`. A new data file or folder a page reads must be added there, or the deployed page will fail. The live pages also need `ANTHROPIC_API_KEY`, `VOYAGE_API_KEY`, `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` set in the Vercel project's environment variables. The Report Card needs none.

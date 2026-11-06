@@ -57,6 +57,24 @@ export function currentGold(): { items: Map<string, GoldItem>; sha256: string } 
 export function loadVersion(id: string): VersionData | null {
   const v = VERSIONS.find((x) => x.id === id);
   if (!v || !v.shown) return null;
+  return readVersion(v);
+}
+
+/**
+ * Grader–human agreement summed over every hand-graded sample, hidden versions included:
+ * the human checks validate the grader, not a particular version.
+ */
+export function humanAgreementTotal(): { agree: number; total: number } {
+  return VERSIONS.map(readVersion).reduce(
+    (acc, v) => {
+      const a = v?.card.grader_human_agreement?.overall;
+      return a ? { agree: acc.agree + a.agree, total: acc.total + a.total } : acc;
+    },
+    { agree: 0, total: 0 }
+  );
+}
+
+function readVersion(v: (typeof VERSIONS)[number]): VersionData | null {
   const gradesFile = `grades/${v.run}.json`;
   const runFile = `runs/${v.run}.json`;
   if (!existsSync(gradesFile) || !existsSync(runFile)) return null;
