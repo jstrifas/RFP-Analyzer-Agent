@@ -23,7 +23,15 @@ let askCounter = 0;
 export async function POST(req: Request) {
   const missing = REQUIRED_ENV.filter((k) => !process.env[k]);
   if (missing.length) {
-    return Response.json({ error: `Missing in .env: ${missing.join(", ")}. Add them and restart the app.` }, { status: 500 });
+    // Visitors see this on the hosted demo too, so it says what's unavailable before how to fix it.
+    return Response.json(
+      {
+        error:
+          `Live answering isn't available: this deployment has no ${missing.join(", ")}. ` +
+          "To turn it on, add them to .env locally and restart, or add them to the hosting project's environment variables and redeploy.",
+      },
+      { status: 503 }
+    );
   }
 
   let body: { question_id?: unknown; text?: unknown };
